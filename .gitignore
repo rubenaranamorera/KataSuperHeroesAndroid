@@ -5,3 +5,9 @@
 /captures
 **.iml
 /.idea
+app/.idea/misc.xml
+app/.idea/modules.xml
+app/.idea/copyright/profiles_settings.xml
+app/.idea/runConfigurations.xml
+app/.idea/vcs.xml
+app/.idea/workspace.xml
