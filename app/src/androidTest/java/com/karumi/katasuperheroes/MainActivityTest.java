@@ -39,6 +39,7 @@ import java.util.List;
 import it.cosenonjaviste.daggermock.DaggerMockRule;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -98,6 +99,24 @@ public class MainActivityTest {
         onView(withText("Roc")).check(matches(isDisplayed()));
     }
 
+    @Test
+    public void opensDetailWhenClickingSuperHero() {
+        givenOnlyRocSuperHero();
+
+        startActivity();
+
+        givenRocDetail();
+
+        onView(withText("Roc")).perform(click());
+
+        onView(withId(R.id.tv_super_hero_description)).check(matches(isDisplayed()));
+    }
+
+    private void givenRocDetail() {
+        when(repository.getByName("Roc")).thenReturn(giveMockRocSuperHero());
+
+    }
+
     private void givenOnlyRocSuperHero() {
         List<SuperHero> heroList = new ArrayList<SuperHero>();
 
@@ -106,7 +125,7 @@ public class MainActivityTest {
         when(repository.getAll()).thenReturn(heroList);
     }
 
-    private void givenSuperHeroes(int heroNumber) {
+    private List<SuperHero> givenSuperHeroes(int heroNumber) {
 
         List<SuperHero> heroList = new ArrayList<SuperHero>();
 
@@ -115,6 +134,8 @@ public class MainActivityTest {
         }
 
         when(repository.getAll()).thenReturn(heroList);
+
+        return heroList;
     }
 
     private SuperHero giveMockRocSuperHero() {
