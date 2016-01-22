@@ -17,6 +17,7 @@
 package com.karumi.katasuperheroes;
 
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
@@ -108,6 +109,19 @@ public class MainActivityTest {
         givenRocDetail();
 
         onView(withText("Roc")).perform(click());
+
+        onView(withId(R.id.tv_super_hero_description)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void opensDetailWhenClickingSuperHeroInMultipleList() {
+        givenSuperHeroes(10);
+
+        startActivity();
+
+        givenRocDetail();
+
+        onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
 
         onView(withId(R.id.tv_super_hero_description)).check(matches(isDisplayed()));
     }
