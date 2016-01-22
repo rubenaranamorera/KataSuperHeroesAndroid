@@ -80,9 +80,8 @@ public class MainActivityTest {
         onView(withText("¯\\_(ツ)_/¯")).check(matches(isDisplayed()));
     }
 
-
     @Test
-    public void showsListIfThereAreSuperHeroes() {
+    public void shows5rowsIfThereAre5SuperHeroes() {
         givenSuperHeroes(5);
 
         startActivity();
@@ -90,19 +89,37 @@ public class MainActivityTest {
         onView(withId(R.id.recycler_view)).check(matches(recyclerViewHasItemCount(5)));
     }
 
+    @Test
+    public void showsRocIfSuperHeroNameIsRoc() {
+        givenOnlyRocSuperHero();
+
+        startActivity();
+
+        onView(withText("Roc")).check(matches(isDisplayed()));
+    }
+
+    private void givenOnlyRocSuperHero() {
+        List<SuperHero> heroList = new ArrayList<SuperHero>();
+
+        heroList.add(giveMockRocSuperHero());
+
+        when(repository.getAll()).thenReturn(heroList);
+    }
+
     private void givenSuperHeroes(int heroNumber) {
 
         List<SuperHero> heroList = new ArrayList<SuperHero>();
 
         for (int i = 0; i < heroNumber; i++) {
-            heroList.add(giveMockSuperHero());
+            heroList.add(giveMockRocSuperHero());
         }
 
         when(repository.getAll()).thenReturn(heroList);
     }
 
-    private SuperHero giveMockSuperHero() {
-        return new SuperHero("SuperRoc", "PHOTO", true, "Roc es un superheroi mol gracios! Papa Pipo Pipo Papa!");
+    private SuperHero giveMockRocSuperHero() {
+        return new SuperHero("Roc", "https://i.annihil.us/u/prod/marvel/i/mg/9/b0/537bc2375dfb9.jpg",
+                true, "Roc es un superheroi mol gracios! Papa Pipo Pipo Papa!");
     }
 
     private void givenThereAreNoSuperHeroes() {
